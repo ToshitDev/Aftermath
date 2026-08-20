@@ -1,0 +1,94 @@
+import { useState } from 'react'
+
+const ALWAYS_ITEMS = [
+  {
+    id: 'submit-application',
+    label:
+      'Submit your official withdrawal application through StudentAccess before 5pm on the last day of instruction',
+  },
+  {
+    id: 'return-items',
+    label: 'Return any library books or university equipment to avoid a hold on your account',
+  },
+  {
+    id: 'backup-files',
+    label:
+      'Back up your files from Office 365/OneDrive and set up email forwarding before you lose Patriot Web access',
+  },
+  {
+    id: 'parking-permit',
+    label:
+      'If you have a parking permit, submit a Permit Exchange/Deactivation Request — returns within 48 hours may incur a $15 fee',
+  },
+]
+
+function buildChecklistItems({ livesInHousing, receivesFederalAid, isInternational }) {
+  const items = [...ALWAYS_ITEMS]
+
+  if (livesInHousing) {
+    items.push({
+      id: 'housing-contract',
+      label: 'Contact Housing & Residence Life to cancel your contract and arrange move-out',
+    })
+  }
+  if (receivesFederalAid) {
+    items.push({
+      id: 'sap-check',
+      label:
+        'Confirm with Financial Aid how this affects your Satisfactory Academic Progress (SAP) and future aid eligibility',
+    })
+  }
+  if (isInternational) {
+    items.push({
+      id: 'oips-meeting',
+      label: 'Meet with an OIPS advisor before submitting your withdrawal to understand your visa status options',
+    })
+  }
+
+  return items
+}
+
+function NextStepsChecklist({ livesInHousing, receivesFederalAid, isInternational }) {
+  const items = buildChecklistItems({ livesInHousing, receivesFederalAid, isInternational })
+  const [checked, setChecked] = useState({})
+
+  function toggle(id) {
+    setChecked((previous) => ({ ...previous, [id]: !previous[id] }))
+  }
+
+  return (
+    <section
+      aria-label="Your next steps"
+      className="w-full max-w-5xl rounded-3xl border border-stone-200 bg-white p-5 shadow-lg shadow-stone-300/30 sm:p-6 print:border-none print:p-0 print:shadow-none"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-stone-600">Your Next Steps</h2>
+        <button
+          type="button"
+          onClick={() => window.print()}
+          className="inline-flex items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-2 text-sm font-bold text-stone-800 shadow-sm transition hover:border-teal-500 hover:bg-teal-50 focus:outline-none focus:ring-4 focus:ring-teal-100 print:hidden"
+        >
+          Print / Save as PDF
+        </button>
+      </div>
+
+      <ul className="mt-4 space-y-2">
+        {items.map((item) => (
+          <li key={item.id}>
+            <label className="flex cursor-pointer items-start gap-3 rounded-2xl p-2 text-base leading-7 text-stone-800 transition hover:bg-stone-50 print:cursor-default print:p-0 print:hover:bg-transparent">
+              <input
+                type="checkbox"
+                checked={Boolean(checked[item.id])}
+                onChange={() => toggle(item.id)}
+                className="mt-1.5 h-5 w-5 shrink-0 rounded border-stone-300 text-teal-700 focus:ring-4 focus:ring-teal-100"
+              />
+              <span className={checked[item.id] ? 'text-stone-400 line-through' : ''}>{item.label}</span>
+            </label>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+export default NextStepsChecklist

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   calculateAidRepayment,
   calculateTranscriptImpact,
@@ -35,6 +36,27 @@ function getDaysUntilRefundDrop(withdrawalDate, currentRefundPct) {
   }
 
   return null
+}
+
+// One-line summary by default, full policy text behind "See details" — for
+// the SAP, health insurance, and re-enrollment cards, so the page doesn't
+// front-load a wall of text on someone already under stress.
+function ExpandableDetail({ summary, children }) {
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+    <div className="space-y-2">
+      <p className="text-base leading-7 text-stone-700">{summary}</p>
+      {expanded && <p className="text-sm leading-6 text-stone-600">{children}</p>}
+      <button
+        type="button"
+        onClick={() => setExpanded((value) => !value)}
+        className="text-sm font-semibold text-teal-800 underline decoration-teal-300 decoration-2 underline-offset-4 transition hover:text-teal-900"
+      >
+        {expanded ? 'Hide details' : 'See details'}
+      </button>
+    </div>
+  )
 }
 
 function ResultCard({ title, children, tone = 'neutral' }) {
@@ -76,7 +98,7 @@ function ResultCards({
   return (
     <section
       aria-label="Withdrawal results"
-      className="grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-2"
+      className="grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 print:hidden"
     >
       <ResultCard title="Tuition Refund">
         <p className="text-3xl font-bold">{tuitionRefund.refundPct}%</p>
@@ -107,8 +129,35 @@ function ResultCards({
         </ResultCard>
       )}
 
+      {receivesFederalAid && (
+        <ResultCard title="Future Aid Eligibility">
+          <ExpandableDetail summary="Withdrawing can affect financial aid eligibility going forward — worth a quick check with Financial Aid.">
+            Heads up: W grades count as attempted hours toward Satisfactory Academic Progress (SAP). If this
+            affects your GPA or completion rate, you may need to file a SAP appeal to keep future aid
+            eligibility. Confirm with Financial Aid.
+          </ExpandableDetail>
+        </ResultCard>
+      )}
+
       <ResultCard title="Transcript Impact">
         <p className="text-xl font-bold leading-8">{transcriptImpact}</p>
+      </ResultCard>
+
+      <ResultCard title="Health Insurance Impact">
+        <ExpandableDetail summary="If you're on the Aetna Student Health Plan, your withdrawal timing affects your coverage.">
+          If you&apos;re on GMU&apos;s Aetna Student Health Plan: withdrawing within the first 31 days of the
+          semester makes you ineligible for coverage. Withdrawing after 31 days under an approved leave keeps
+          your coverage through the period already paid for, with no refund. If you&apos;re an international
+          student, insurance is mandatory under GMU policy — confirm your status with OIPS.
+        </ExpandableDetail>
+      </ResultCard>
+
+      <ResultCard title="Coming Back Later">
+        <ExpandableDetail summary="Withdrawing doesn't close the door — coming back later is usually straightforward.">
+          The door isn&apos;t closed. If you&apos;re away 2 years or fewer (without a Leave of Absence on
+          file), you can return through the Registrar&apos;s Undergraduate Application for Re-enrollment. Away
+          longer than that, or studied elsewhere without permission? You&apos;ll reapply through Admissions.
+        </ExpandableDetail>
       </ResultCard>
 
       <ResultCard title="Who Reviews This">
