@@ -4,6 +4,7 @@ import {
   calculateTuitionRefund,
   getReviewRoute,
 } from '../lib/withdrawalRules.js'
+import ContactOffices from './ContactOffices.jsx'
 
 const FALL_2026_TERM_START = '2026-08-24'
 
@@ -126,6 +127,11 @@ function ResultCards({
             Housing has its own process: contact Housing &amp; Residence Life separately.
           </p>
         )}
+        <ContactOffices
+          withdrawalDate={withdrawalDate}
+          livesInHousing={livesInHousing}
+          isInternational={isInternational}
+        />
       </ResultCard>
     </section>
   )
