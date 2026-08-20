@@ -145,7 +145,7 @@ export function getReviewRoute(isInternational, livesInHousing) {
 
 // --- Manual sanity check: Maya's scenario -----------------------------
 // Run directly with `node src/lib/withdrawalRules.js`. Not executed on import.
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (typeof process !== 'undefined' && import.meta.url === `file://${process.argv[1]}`) {
   const maya = {
     withdrawalDate: '2026-10-14',
     termStartDate: '2026-08-24',
