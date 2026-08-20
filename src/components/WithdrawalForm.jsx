@@ -40,6 +40,14 @@ function YesNoToggle({ legend, name, value, onChange }) {
   )
 }
 
+const EXAMPLE_VALUES = {
+  withdrawalDate: '2026-10-14',
+  receivesFederalAid: true,
+  federalAidAmount: 8000,
+  livesInHousing: true,
+  isInternational: false,
+}
+
 function WithdrawalForm({ onSubmit }) {
   const [withdrawalDate, setWithdrawalDate] = useState(getToday)
   const [receivesFederalAid, setReceivesFederalAid] = useState(false)
@@ -66,6 +74,15 @@ function WithdrawalForm({ onSubmit }) {
     })
   }
 
+  function handleExampleClick() {
+    setWithdrawalDate(EXAMPLE_VALUES.withdrawalDate)
+    setReceivesFederalAid(EXAMPLE_VALUES.receivesFederalAid)
+    setFederalAidAmount(String(EXAMPLE_VALUES.federalAidAmount))
+    setLivesInHousing(EXAMPLE_VALUES.livesInHousing)
+    setIsInternational(EXAMPLE_VALUES.isInternational)
+    onSubmit(EXAMPLE_VALUES, { isExample: true })
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -80,6 +97,14 @@ function WithdrawalForm({ onSubmit }) {
           Answer a few questions and we will map the next steps clearly.
         </p>
       </div>
+
+      <button
+        type="button"
+        onClick={handleExampleClick}
+        className="inline-flex w-full items-center justify-center rounded-2xl border border-teal-300 bg-white/60 px-4 py-3 text-sm font-bold text-teal-900 shadow-sm transition hover:border-teal-500 hover:bg-teal-50 focus:outline-none focus:ring-4 focus:ring-teal-100 sm:w-auto"
+      >
+        Try an example scenario
+      </button>
 
       <div className="space-y-3">
         <label htmlFor="withdrawal-date" className="block text-base font-semibold text-stone-900">
