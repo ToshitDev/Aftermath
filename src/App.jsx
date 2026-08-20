@@ -1,7 +1,15 @@
+import WithdrawalForm from './components/WithdrawalForm.jsx'
+
 function App() {
+  function handleWithdrawalSubmit(values) {
+    console.log('Withdrawal form values:', values)
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-950 text-neutral-100">
-      <h1 className="text-4xl font-bold">Aftermath</h1>
+    <div className="min-h-screen bg-stone-100 px-4 py-8 text-stone-950 sm:px-6 lg:px-8">
+      <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-5xl items-center justify-center">
+        <WithdrawalForm onSubmit={handleWithdrawalSubmit} />
+      </main>
     </div>
   )
 }
