@@ -48,6 +48,29 @@ export const OFFICES = {
     ],
     note: 'No online booking for OIPS appointments. Call or use drop-in hours above.',
   },
+  scholarships: {
+    name: 'Scholarships Team',
+    unit: 'Office of Student Financial Aid',
+    description: 'Questions about a Mason scholarship or how withdrawal may affect it.',
+    email: 'gmusch@gmu.edu',
+    emailActionLabel: 'Email Scholarships Team',
+    phone: '7039932000',
+    phoneDisplay: '703-993-2000',
+    phoneActionLabel: 'Call',
+    reasons: [
+      {
+        label: 'I have questions about how withdrawal may affect my Mason scholarship',
+        subject: 'Question about scholarship impact of withdrawal',
+      },
+    ],
+    links: [
+      {
+        label: 'View Mason scholarship information',
+        href: 'https://www.gmu.edu/financial-aid-parent/types-aid/scholarships/mason-scholarships',
+      },
+    ],
+    note: 'Some scholarships are administered by individual colleges or departments. Check your award letter for the office responsible for your specific award.',
+  },
   housing: {
     name: 'Housing & Residence Life',
     email: 'housing@gmu.edu',
