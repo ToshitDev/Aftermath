@@ -131,7 +131,7 @@ function getTuitionRefundPresentation(refundPct) {
   return {
     tone: 'caution',
     badgeLabel: 'Partial refund',
-    meaning: `You'll get ${refundPct}% of your tuition back — the rest is considered non-refundable at this point.`,
+    meaning: `You'll get ${refundPct}% of your tuition back. The rest is considered non-refundable at this point.`,
   }
 }
 
@@ -154,15 +154,15 @@ function getAidRiskPresentation(unearnedTitleIVAid) {
 
 const TRANSCRIPT_MEANING = {
   'No record on transcript': 'Because this is before the term even starts, nothing will show up on your transcript.',
-  'W notation, no GPA impact': "You'll see a W on your transcript for this term — it won't affect your GPA.",
+  'W notation, no GPA impact': "You'll see a W on your transcript for this term. It won't affect your GPA.",
   'Full semester withdrawal, W notation':
-    "This falls in the full-withdrawal window, so you'll see a W for the whole semester — it won't lower your GPA, but it will appear on your record.",
+    "This falls in the full-withdrawal window, so you'll see a W for the whole semester. It won't lower your GPA, but it will appear on your record.",
 }
 
 function getTranscriptMeaning(transcriptImpact) {
   return (
     TRANSCRIPT_MEANING[transcriptImpact] ??
-    "This date is outside the standard withdrawal window — the Registrar's Office can confirm exactly how it will appear."
+    "This date is outside the standard withdrawal window. The Registrar's Office can confirm exactly how it will appear."
   )
 }
 
@@ -332,7 +332,7 @@ function ResultCards({
         {tuitionRefund.refundPct < 100 && (
           <div className="space-y-3 rounded-lg bg-cream px-4 py-3">
             <p className="text-sm leading-relaxed text-ink/70">
-              Heads up: GMU does not offer tuition refund appeals for missed deadlines — this was replaced by
+              Heads up: GMU does not offer tuition refund appeals for missed deadlines. This was replaced by
               optional GradGuard Tuition Insurance, purchased at the time of billing. If you opted into
               GradGuard when you paid tuition, contact them directly to file a claim. If you didn&apos;t, this
               refund amount is final.
@@ -418,8 +418,8 @@ function ResultCards({
         <ResultCard title="Future Aid Eligibility" delay={80}>
           <ToneBadge tone="caution">Worth a look</ToneBadge>
           <p className="text-base leading-relaxed text-ink/70">
-            Withdrawing can affect financial aid eligibility going forward — worth a quick check with Financial
-            Aid.
+            Withdrawing can affect financial aid eligibility going forward. It&apos;s worth a quick check with
+            Financial Aid.
           </p>
           <Accordion>
             <p>
@@ -435,7 +435,7 @@ function ResultCards({
         <ResultCard title="Scholarship Impact" delay={100}>
           <ToneBadge tone="caution">Worth a look</ToneBadge>
           <p className="text-base leading-relaxed text-ink/70">
-            If you receive a scholarship, withdrawing may affect it — every award&apos;s terms are different, so
+            If you receive a scholarship, withdrawing may affect it. Every award&apos;s terms are different, so
             this is one to confirm directly.
           </p>
           <Accordion>
@@ -445,12 +445,12 @@ function ResultCards({
               years of funding even if unused, or affect future eligibility. If your withdrawal is medically
               documented, some scholarship terms treat this differently and may preserve your eligibility.
               Since every scholarship&apos;s terms are different, confirm directly with the office or
-              organization that awarded it — this isn&apos;t something we can calculate for you.
+              organization that awarded it. This isn&apos;t something we can calculate for you.
             </p>
             {isInternational && (
               <p>
                 If you receive an international/tuition-waiver scholarship, this may be directly tied to your
-                F-1/J-1 full-time enrollment status — confirm with OIPS before withdrawing, since dropping
+                F-1/J-1 full-time enrollment status. Confirm with OIPS before withdrawing, since dropping
                 below full-time generally requires their prior authorization regardless of your scholarship
                 terms.
               </p>
@@ -464,7 +464,7 @@ function ResultCards({
         <p className="text-base leading-relaxed text-ink/70">{getTranscriptMeaning(transcriptImpact)}</p>
         <Accordion>
           <p>
-            A &ldquo;W&rdquo; means withdrawal — it shows you were enrolled but didn&apos;t complete the course,
+            A &ldquo;W&rdquo; means withdrawal. It shows you were enrolled but didn&apos;t complete the course,
             without factoring into your GPA calculation.
           </p>
           <SourceRow source={POLICY_SOURCES.transcriptImpact} />
@@ -481,7 +481,7 @@ function ResultCards({
             If you&apos;re on GMU&apos;s Aetna Student Health Plan: withdrawing within the first 31 days of the
             semester makes you ineligible for coverage. Withdrawing after 31 days under an approved leave keeps
             your coverage through the period already paid for, with no refund. If you&apos;re an international
-            student, insurance is mandatory under GMU policy — confirm your status with OIPS.
+            student, insurance is mandatory under GMU policy. Confirm your status with OIPS.
           </p>
         </Accordion>
       </ResultCard>
@@ -489,7 +489,7 @@ function ResultCards({
       <ResultCard title="Coming Back Later" delay={200}>
         <ToneBadge tone="success">Good to know</ToneBadge>
         <p className="text-base leading-relaxed text-ink/70">
-          Withdrawing doesn&apos;t close the door — coming back later is usually straightforward.
+          Withdrawing doesn&apos;t close the door. Coming back later is usually straightforward.
         </p>
         <Accordion>
           <p>
@@ -502,7 +502,7 @@ function ResultCards({
 
       <ResultCard title="Who Reviews This" delay={240}>
         <p className="text-base leading-relaxed text-ink/70">
-          These offices are involved in reviewing your withdrawal — reach out anytime using the contacts below.
+          These offices are involved in reviewing your withdrawal. Reach out anytime using the contacts below.
         </p>
         <div className="flex flex-wrap gap-2">
           {primaryReviewOffices.map((office) => (

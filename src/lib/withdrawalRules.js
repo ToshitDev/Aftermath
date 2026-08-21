@@ -238,7 +238,7 @@ export function calculateTranscriptImpact(withdrawalDate, termStartDate) {
   }
 
   // Past GMU's published Fall 2026 withdrawal deadline — no policy above covers this.
-  return 'Outside the published withdrawal window — contact the Registrar\'s Office'
+  return 'Outside the published withdrawal window. Contact the Registrar\'s Office'
 }
 
 /**

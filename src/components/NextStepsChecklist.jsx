@@ -21,7 +21,7 @@ const ALWAYS_ITEMS = [
   {
     id: 'parking-permit',
     label:
-      'If you have a parking permit, submit a Permit Exchange/Deactivation Request — returns within 48 hours may incur a $15 fee',
+      'If you have a parking permit, submit a Permit Exchange/Deactivation Request. Returns within 48 hours may incur a $15 fee',
     href: 'https://parking.gmu.edu/',
     linkLabel: 'Go to Parking Services',
   },

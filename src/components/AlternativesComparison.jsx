@@ -28,7 +28,7 @@ function AlternativesComparison() {
       <div className="space-y-1">
         <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink/60">Before You Decide</h2>
         <p className="max-w-[65ch] text-base leading-relaxed text-ink/70">
-          Withdrawing isn&apos;t the only option — here&apos;s how it compares to a couple of alternatives worth
+          Withdrawing isn&apos;t the only option. Here&apos;s how it compares to a couple of alternatives worth
           considering.
         </p>
       </div>

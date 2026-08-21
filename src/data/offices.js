@@ -46,7 +46,7 @@ export const OFFICES = {
         href: 'https://go.gmu.edu/OnlineDropInHours',
       },
     ],
-    note: 'No online booking for OIPS appointments — call or use drop-in hours above.',
+    note: 'No online booking for OIPS appointments. Call or use drop-in hours above.',
   },
   housing: {
     name: 'Housing & Residence Life',

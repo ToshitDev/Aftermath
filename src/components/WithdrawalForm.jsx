@@ -102,7 +102,7 @@ function WithdrawalForm({ onSubmit }) {
         <p className="text-sm font-semibold uppercase tracking-[0.14em] text-teal">Withdrawal planning</p>
         <h1 className="font-heading text-3xl font-semibold text-ink sm:text-5xl">Aftermath</h1>
         <p className="max-w-[65ch] text-base leading-relaxed text-ink/70">
-          Answer a few questions and we&apos;ll map out what happens next — clearly, and at your own pace.
+          Answer a few questions. We&apos;ll map out what happens next, clearly and at your own pace.
         </p>
       </div>
 

@@ -46,7 +46,7 @@ function OfficeContactCard({ office, withdrawalDate, studentName, gNumber }) {
               {option.label}
             </option>
           ))}
-          <option value={OTHER_VALUE}>Other — describe your situation</option>
+          <option value={OTHER_VALUE}>Other (describe your situation)</option>
         </select>
       </div>
 

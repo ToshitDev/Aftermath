@@ -60,7 +60,7 @@ function App() {
               </p>
             )}
             <p className="max-w-[65ch] text-sm leading-relaxed text-ink/60">
-              This is an estimate to help you plan — your financial aid office has the final say. You can
+              This is an estimate to help you plan. Your financial aid office has the final say, and you can
               change your answers anytime and resubmit to see updated results.
             </p>
             <AboutEstimateDisclosure />
