@@ -15,7 +15,7 @@ function AboutSection() {
   const [expanded, setExpanded] = useState(true)
 
   return (
-    <section className="w-full rounded-2xl border border-black/5 bg-surface shadow-soft print:hidden">
+    <section className="mx-auto w-full max-w-3xl rounded-2xl border border-black/5 bg-surface shadow-soft print:hidden">
       <button
         type="button"
         onClick={() => setExpanded((value) => !value)}
@@ -32,8 +32,8 @@ function AboutSection() {
         className={`grid transition-[grid-template-rows] duration-200 ease-out ${expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
       >
         <div className="overflow-hidden">
-          <div className="space-y-4 px-6 pb-6 sm:px-8 sm:pb-8 lg:flex lg:items-start lg:gap-10 lg:space-y-0">
-            <p className="max-w-2xl text-base leading-relaxed text-ink/70">
+          <div className="space-y-4 px-6 pb-6 sm:px-8 sm:pb-8">
+            <p className="text-base leading-relaxed text-ink/70">
               Withdrawing from college mid-semester is one of the hardest decisions a student can face, and the
               consequences are scattered across five different offices: tuition refunds, financial aid,
               transcripts, health insurance, and more. Aftermath brings all of it together in one place.
@@ -41,7 +41,7 @@ function AboutSection() {
               University&apos;s own published Fall 2026 policies. No guessing, no runaround, just a clear
               picture before you decide.
             </p>
-            <div className="flex flex-wrap gap-2 lg:w-56 lg:shrink-0 lg:flex-col lg:items-start">
+            <div className="flex flex-wrap gap-2">
               {STATS.map((stat) => (
                 <span key={stat} className="rounded-full bg-cream px-3 py-1.5 text-sm font-semibold text-teal-dark">
                   {stat}
