@@ -46,6 +46,7 @@ const EXAMPLE_VALUES = {
   isInternational: false,
   studentName: 'Maya Rodriguez',
   gNumber: 'G01234567',
+  receivesScholarship: false,
 }
 
 function WithdrawalForm({ onSubmit }) {
@@ -56,6 +57,7 @@ function WithdrawalForm({ onSubmit }) {
   const [isInternational, setIsInternational] = useState(false)
   const [studentName, setStudentName] = useState('')
   const [gNumber, setGNumber] = useState('')
+  const [receivesScholarship, setReceivesScholarship] = useState(false)
 
   function handleAidChange(value) {
     setReceivesFederalAid(value)
@@ -75,6 +77,7 @@ function WithdrawalForm({ onSubmit }) {
       isInternational,
       studentName: studentName.trim(),
       gNumber: gNumber.trim(),
+      receivesScholarship,
     })
   }
 
@@ -86,6 +89,7 @@ function WithdrawalForm({ onSubmit }) {
     setIsInternational(EXAMPLE_VALUES.isInternational)
     setStudentName(EXAMPLE_VALUES.studentName)
     setGNumber(EXAMPLE_VALUES.gNumber)
+    setReceivesScholarship(EXAMPLE_VALUES.receivesScholarship)
     onSubmit(EXAMPLE_VALUES, { isExample: true })
   }
 
@@ -187,6 +191,13 @@ function WithdrawalForm({ onSubmit }) {
           </div>
         </div>
       )}
+
+      <YesNoToggle
+        legend="Do you receive an institutional or merit scholarship?"
+        name="receives-scholarship"
+        value={receivesScholarship}
+        onChange={setReceivesScholarship}
+      />
 
       <YesNoToggle
         legend="Do you live in campus housing?"

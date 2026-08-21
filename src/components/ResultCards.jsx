@@ -286,6 +286,7 @@ function ResultCards({
   isInternational,
   studentName,
   gNumber,
+  receivesScholarship,
 }) {
   const tuitionRefund = calculateTuitionRefund(withdrawalDate)
   const aidRepayment = calculateAidRepayment(
@@ -311,6 +312,7 @@ function ResultCards({
 
   const refundPresentation = getTuitionRefundPresentation(tuitionRefund.refundPct)
   const aidPresentation = getAidRiskPresentation(estimatedUnearnedTitleIVAid)
+  const showScholarshipCard = isInternational || receivesScholarship
 
   return (
     <section
@@ -398,6 +400,34 @@ function ResultCards({
               affects your GPA or completion rate, you may need to file a SAP appeal to keep future aid
               eligibility. Confirm with Financial Aid.
             </p>
+          </Accordion>
+        </ResultCard>
+      )}
+
+      {showScholarshipCard && (
+        <ResultCard title="Scholarship Impact" delay={100}>
+          <ToneBadge tone="caution">Worth a look</ToneBadge>
+          <p className="text-base leading-relaxed text-ink/70">
+            If you receive a scholarship, withdrawing may affect it — every award&apos;s terms are different, so
+            this is one to confirm directly.
+          </p>
+          <Accordion>
+            <p>
+              Scholarships often require continuous full-time enrollment. Withdrawing mid-semester may: prorate
+              your scholarship based on your last day of attendance, count this semester against your total
+              years of funding even if unused, or affect future eligibility. If your withdrawal is medically
+              documented, some scholarship terms treat this differently and may preserve your eligibility.
+              Since every scholarship&apos;s terms are different, confirm directly with the office or
+              organization that awarded it — this isn&apos;t something we can calculate for you.
+            </p>
+            {isInternational && (
+              <p>
+                If you receive an international/tuition-waiver scholarship, this may be directly tied to your
+                F-1/J-1 full-time enrollment status — confirm with OIPS before withdrawing, since dropping
+                below full-time generally requires their prior authorization regardless of your scholarship
+                terms.
+              </p>
+            )}
           </Accordion>
         </ResultCard>
       )}
