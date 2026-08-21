@@ -24,6 +24,8 @@ export const OFFICES = {
   international: {
     name: 'International Programs & Services (OIPS)',
     email: 'oips@gmu.edu',
+    phone: '7039932970',
+    phoneDisplay: '703-993-2970',
     reasons: [
       {
         label: "I'm withdrawing and need to understand my visa status impact",
@@ -38,6 +40,13 @@ export const OFFICES = {
         subject: 'Withdrawal Inquiry: International Student Questions',
       },
     ],
+    links: [
+      {
+        label: 'Join Online Drop-In Hours (Wed/Thu, 1:30-3:15pm)',
+        href: 'https://go.gmu.edu/OnlineDropInHours',
+      },
+    ],
+    note: 'No online booking for OIPS appointments — call or use drop-in hours above.',
   },
   housing: {
     name: 'Housing & Residence Life',
@@ -54,6 +63,12 @@ export const OFFICES = {
       {
         label: 'I need to arrange move-out logistics',
         subject: 'Withdrawal Inquiry: Move-Out Logistics',
+      },
+    ],
+    links: [
+      {
+        label: 'Go to Housing Portal (StarRez)',
+        href: 'https://gmu.starrezhousing.com/StarRezPortal',
       },
     ],
   },

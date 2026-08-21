@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ExternalLink } from 'lucide-react'
 import { OFFICES } from '../data/offices.js'
 import { buildMailtoUrl, buildWithdrawalInquiryBody } from '../lib/email.js'
 
@@ -43,6 +44,30 @@ function OfficeContactCard({ office, withdrawalDate }) {
       >
         Send Email
       </a>
+
+      {office.phone && (
+        <a
+          href={`tel:${office.phone}`}
+          className="text-sm font-semibold text-teal underline decoration-teal/30 underline-offset-2 transition-colors duration-200 ease-out hover:text-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+        >
+          Call to schedule: {office.phoneDisplay}
+        </a>
+      )}
+
+      {office.links?.map((link) => (
+        <a
+          key={link.href}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-1.5 rounded-lg border-2 border-teal px-4 py-2.5 text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+        >
+          {link.label}
+          <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        </a>
+      ))}
+
+      {office.note && <p className="text-xs leading-relaxed text-ink/50">{office.note}</p>}
     </div>
   )
 }
