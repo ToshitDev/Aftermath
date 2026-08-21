@@ -120,11 +120,11 @@ function EmptyResultsPreview() {
 
 function App() {
   const [withdrawalValues, setWithdrawalValues] = useState(null)
-  const [isExampleResult, setIsExampleResult] = useState(false)
+  const [exampleLabel, setExampleLabel] = useState(null)
 
-  function handleWithdrawalSubmit(values, { isExample = false } = {}) {
+  function handleWithdrawalSubmit(values, { isExample = false, exampleLabel: label = null } = {}) {
     setWithdrawalValues(values)
-    setIsExampleResult(isExample)
+    setExampleLabel(isExample ? label : null)
   }
 
   return (
@@ -157,9 +157,9 @@ function App() {
 
             {withdrawalValues && (
               <div className="space-y-4">
-                {isExampleResult && (
+                {exampleLabel && (
                   <p className="inline-flex rounded-full border border-teal/20 bg-teal/10 px-3 py-1.5 text-sm font-semibold text-teal-dark print:hidden">
-                    Example: Maya, a GMU student withdrawing mid-semester
+                    Example: {exampleLabel}
                   </p>
                 )}
                 <p className="max-w-[65ch] text-sm leading-relaxed text-ink/60">

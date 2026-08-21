@@ -38,7 +38,7 @@ function YesNoToggle({ legend, name, value, onChange }) {
   )
 }
 
-const EXAMPLE_VALUES = {
+const LOCAL_STUDENT_EXAMPLE = {
   withdrawalDate: '2026-10-14',
   receivesFederalAid: true,
   federalAidAmount: 8000,
@@ -48,6 +48,19 @@ const EXAMPLE_VALUES = {
   gNumber: 'G01234567',
   receivesScholarship: false,
 }
+const LOCAL_STUDENT_EXAMPLE_LABEL = 'Maya, a GMU student withdrawing mid-semester'
+
+const INTERNATIONAL_STUDENT_EXAMPLE = {
+  withdrawalDate: '2026-09-10',
+  receivesFederalAid: false,
+  federalAidAmount: 0,
+  livesInHousing: true,
+  isInternational: true,
+  studentName: 'Priya Sharma',
+  gNumber: 'G05678912',
+  receivesScholarship: true,
+}
+const INTERNATIONAL_STUDENT_EXAMPLE_LABEL = 'Priya, an international student withdrawing mid-semester'
 
 function WithdrawalForm({ onSubmit }) {
   const [withdrawalDate, setWithdrawalDate] = useState(getToday)
@@ -81,16 +94,25 @@ function WithdrawalForm({ onSubmit }) {
     })
   }
 
-  function handleExampleClick() {
-    setWithdrawalDate(EXAMPLE_VALUES.withdrawalDate)
-    setReceivesFederalAid(EXAMPLE_VALUES.receivesFederalAid)
-    setFederalAidAmount(String(EXAMPLE_VALUES.federalAidAmount))
-    setLivesInHousing(EXAMPLE_VALUES.livesInHousing)
-    setIsInternational(EXAMPLE_VALUES.isInternational)
-    setStudentName(EXAMPLE_VALUES.studentName)
-    setGNumber(EXAMPLE_VALUES.gNumber)
-    setReceivesScholarship(EXAMPLE_VALUES.receivesScholarship)
-    onSubmit(EXAMPLE_VALUES, { isExample: true })
+  function applyExample(example) {
+    setWithdrawalDate(example.withdrawalDate)
+    setReceivesFederalAid(example.receivesFederalAid)
+    setFederalAidAmount(String(example.federalAidAmount))
+    setLivesInHousing(example.livesInHousing)
+    setIsInternational(example.isInternational)
+    setStudentName(example.studentName)
+    setGNumber(example.gNumber)
+    setReceivesScholarship(example.receivesScholarship)
+  }
+
+  function handleLocalExampleClick() {
+    applyExample(LOCAL_STUDENT_EXAMPLE)
+    onSubmit(LOCAL_STUDENT_EXAMPLE, { isExample: true, exampleLabel: LOCAL_STUDENT_EXAMPLE_LABEL })
+  }
+
+  function handleInternationalExampleClick() {
+    applyExample(INTERNATIONAL_STUDENT_EXAMPLE)
+    onSubmit(INTERNATIONAL_STUDENT_EXAMPLE, { isExample: true, exampleLabel: INTERNATIONAL_STUDENT_EXAMPLE_LABEL })
   }
 
   return (
@@ -98,13 +120,22 @@ function WithdrawalForm({ onSubmit }) {
       onSubmit={handleSubmit}
       className="w-full min-w-0 space-y-5 rounded-2xl border border-black/5 bg-surface p-4 shadow-soft sm:p-6"
     >
-      <button
-        type="button"
-        onClick={handleExampleClick}
-        className="inline-flex w-full items-center justify-center rounded-lg border-2 border-teal px-4 py-2.5 text-center text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface sm:w-auto"
-      >
-        Try an example scenario
-      </button>
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <button
+          type="button"
+          onClick={handleLocalExampleClick}
+          className="inline-flex flex-1 items-center justify-center rounded-lg border-2 border-teal px-4 py-2.5 text-center text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+        >
+          Try a local student scenario
+        </button>
+        <button
+          type="button"
+          onClick={handleInternationalExampleClick}
+          className="inline-flex flex-1 items-center justify-center rounded-lg border-2 border-teal px-4 py-2.5 text-center text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+        >
+          Try an international student scenario
+        </button>
+      </div>
 
       <div className="space-y-2">
         <label htmlFor="withdrawal-date" className="block text-base font-medium text-ink">
