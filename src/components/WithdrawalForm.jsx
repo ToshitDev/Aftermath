@@ -96,20 +96,12 @@ function WithdrawalForm({ onSubmit }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl space-y-8 rounded-2xl border border-black/5 bg-surface p-6 shadow-soft sm:p-8"
+      className="w-full min-w-0 space-y-5 rounded-2xl border border-black/5 bg-surface p-4 shadow-soft sm:p-6"
     >
-      <div className="space-y-2">
-        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-teal">Withdrawal planning</p>
-        <h1 className="font-heading text-3xl font-semibold text-ink sm:text-5xl">Aftermath</h1>
-        <p className="max-w-[65ch] text-base leading-relaxed text-ink/70">
-          Answer a few questions. We&apos;ll map out what happens next, clearly and at your own pace.
-        </p>
-      </div>
-
       <button
         type="button"
         onClick={handleExampleClick}
-        className="inline-flex w-full items-center justify-center rounded-lg border-2 border-teal px-4 py-2.5 text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface sm:w-auto"
+        className="inline-flex w-full items-center justify-center rounded-lg border-2 border-teal px-4 py-2.5 text-center text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface sm:w-auto"
       >
         Try an example scenario
       </button>

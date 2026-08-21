@@ -189,7 +189,7 @@ function SourceRow({ source }) {
         href={source.href}
         target="_blank"
         rel="noreferrer"
-        className="mt-1 inline-flex items-center gap-1 font-semibold text-teal underline decoration-teal/25 underline-offset-2 transition-colors duration-200 ease-out hover:text-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+        className="mt-1 inline-flex max-w-full flex-wrap items-center gap-1 break-words font-semibold text-teal underline decoration-teal/25 underline-offset-2 transition-colors duration-200 ease-out hover:text-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
       >
         {source.label}
         <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
@@ -414,8 +414,20 @@ function ResultCards({
         </ResultCard>
       )}
 
+      <ResultCard title="Transcript Impact" delay={80}>
+        <p className="font-heading text-xl font-semibold leading-snug text-ink">{transcriptImpact}</p>
+        <p className="text-base leading-relaxed text-ink/70">{getTranscriptMeaning(transcriptImpact)}</p>
+        <Accordion>
+          <p>
+            A &ldquo;W&rdquo; means withdrawal. It shows you were enrolled but didn&apos;t complete the course,
+            without factoring into your GPA calculation.
+          </p>
+          <SourceRow source={POLICY_SOURCES.transcriptImpact} />
+        </Accordion>
+      </ResultCard>
+
       {receivesFederalAid && (
-        <ResultCard title="Future Aid Eligibility" delay={80}>
+        <ResultCard title="Future Aid Eligibility" delay={120}>
           <ToneBadge tone="caution">Worth a look</ToneBadge>
           <p className="text-base leading-relaxed text-ink/70">
             Withdrawing can affect financial aid eligibility going forward. It&apos;s worth a quick check with
@@ -432,7 +444,7 @@ function ResultCards({
       )}
 
       {showScholarshipCard && (
-        <ResultCard title="Scholarship Impact" delay={100}>
+        <ResultCard title="Scholarship Impact" delay={160}>
           <ToneBadge tone="caution">Worth a look</ToneBadge>
           <p className="text-base leading-relaxed text-ink/70">
             If you receive a scholarship, withdrawing may affect it. Every award&apos;s terms are different, so
@@ -459,19 +471,7 @@ function ResultCards({
         </ResultCard>
       )}
 
-      <ResultCard title="Transcript Impact" delay={120}>
-        <p className="font-heading text-xl font-semibold leading-snug text-ink">{transcriptImpact}</p>
-        <p className="text-base leading-relaxed text-ink/70">{getTranscriptMeaning(transcriptImpact)}</p>
-        <Accordion>
-          <p>
-            A &ldquo;W&rdquo; means withdrawal. It shows you were enrolled but didn&apos;t complete the course,
-            without factoring into your GPA calculation.
-          </p>
-          <SourceRow source={POLICY_SOURCES.transcriptImpact} />
-        </Accordion>
-      </ResultCard>
-
-      <ResultCard title="Health Insurance Impact" delay={160}>
+      <ResultCard title="Health Insurance Impact" delay={200}>
         <ToneBadge tone="neutral">Worth checking</ToneBadge>
         <p className="text-base leading-relaxed text-ink/70">
           If you&apos;re on the Aetna Student Health Plan, your withdrawal timing affects your coverage.
@@ -486,7 +486,7 @@ function ResultCards({
         </Accordion>
       </ResultCard>
 
-      <ResultCard title="Coming Back Later" delay={200}>
+      <ResultCard title="Coming Back Later" delay={240}>
         <ToneBadge tone="success">Good to know</ToneBadge>
         <p className="text-base leading-relaxed text-ink/70">
           Withdrawing doesn&apos;t close the door. Coming back later is usually straightforward.
@@ -500,7 +500,7 @@ function ResultCards({
         </Accordion>
       </ResultCard>
 
-      <ResultCard title="Who Reviews This" delay={240}>
+      <ResultCard title="Who Reviews This" delay={280}>
         <p className="text-base leading-relaxed text-ink/70">
           These offices are involved in reviewing your withdrawal. Reach out anytime using the contacts below.
         </p>

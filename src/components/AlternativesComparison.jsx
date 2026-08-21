@@ -24,7 +24,7 @@ const OPTIONS = [
 
 function AlternativesComparison() {
   return (
-    <section aria-label="Before you decide" className="w-full max-w-5xl space-y-4 print:hidden">
+    <section aria-label="Before you decide" className="w-full space-y-4 print:hidden">
       <div className="space-y-1">
         <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink/60">Before You Decide</h2>
         <p className="max-w-[65ch] text-base leading-relaxed text-ink/70">

@@ -41,6 +41,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  overflow-x: clip;
+}
+
 h1,
 h2,
 h3 {

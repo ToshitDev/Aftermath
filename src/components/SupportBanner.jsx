@@ -1,10 +1,10 @@
-// Small, calm, always-visible crisis-support bar. Rendered once in App.jsx,
-// outside the form/results flow, so it's present on every view.
+// Small, calm crisis-support footer. It stays in the normal document flow so it
+// remains accessible without covering form fields, results, or print controls.
 function SupportBanner() {
   return (
     <footer
       role="contentinfo"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-black/5 bg-cream/95 px-4 py-2.5 text-center text-xs leading-relaxed text-ink/70 shadow-[0_-4px_12px_-6px_rgba(0,0,0,0.06)] backdrop-blur-sm sm:text-sm print:hidden"
+      className="mx-auto mt-8 w-full max-w-7xl border-t border-black/5 px-4 py-5 text-center text-xs leading-relaxed text-ink/70 sm:px-6 sm:text-sm lg:px-8 print:hidden"
     >
       <p className="mx-auto max-w-5xl">
         Going through a hard time? GMU CAPS:{' '}
