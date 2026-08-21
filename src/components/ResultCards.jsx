@@ -523,6 +523,7 @@ function ResultCards({
           withdrawalDate={withdrawalDate}
           livesInHousing={livesInHousing}
           isInternational={isInternational}
+          hasScholarshipImpact={showScholarshipCard}
           studentName={studentName}
           gNumber={gNumber}
         />

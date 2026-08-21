@@ -28,6 +28,8 @@ function OfficeContactCard({ office, withdrawalDate, studentName, gNumber }) {
     <div className="flex flex-col gap-3 rounded-2xl border border-black/5 bg-surface p-4 shadow-soft">
       <div>
         <p className="text-base font-semibold text-ink">{office.name}</p>
+        {office.unit && <p className="text-sm font-medium text-ink/65">{office.unit}</p>}
+        {office.description && <p className="mt-1 text-sm leading-relaxed text-ink/60">{office.description}</p>}
         <p className="text-sm text-ink/60">{office.email}</p>
       </div>
 
@@ -70,7 +72,7 @@ function OfficeContactCard({ office, withdrawalDate, studentName, gNumber }) {
         href={mailtoUrl}
         className="inline-flex items-center justify-center rounded-lg bg-teal px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-200 ease-out hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
       >
-        Send Email
+        {office.emailActionLabel ?? 'Send Email'}
       </a>
 
       {office.phone && (
@@ -78,7 +80,7 @@ function OfficeContactCard({ office, withdrawalDate, studentName, gNumber }) {
           href={`tel:${office.phone}`}
           className="text-sm font-semibold text-teal underline decoration-teal/30 underline-offset-2 transition-colors duration-200 ease-out hover:text-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
         >
-          Call to schedule: {office.phoneDisplay}
+          {office.phoneActionLabel ?? 'Call to schedule'}: {office.phoneDisplay}
         </a>
       )}
 
@@ -100,9 +102,17 @@ function OfficeContactCard({ office, withdrawalDate, studentName, gNumber }) {
   )
 }
 
-function ContactOffices({ withdrawalDate, livesInHousing, isInternational, studentName, gNumber }) {
+function ContactOffices({
+  withdrawalDate,
+  livesInHousing,
+  isInternational,
+  hasScholarshipImpact,
+  studentName,
+  gNumber,
+}) {
   const offices = [
     OFFICES.registrar,
+    ...(hasScholarshipImpact ? [OFFICES.scholarships] : []),
     ...(isInternational ? [OFFICES.international] : []),
     ...(livesInHousing ? [OFFICES.housing] : []),
   ]

@@ -108,6 +108,37 @@ function NextStepsChecklist({ livesInHousing, receivesFederalAid, isInternationa
           </li>
         ))}
       </ul>
+
+      {isInternational && (
+        <div className="mt-4 rounded-lg bg-cream px-4 py-3 text-sm leading-relaxed text-ink/70 print:hidden">
+          <h3 className="font-heading text-base font-semibold text-ink">Planning international travel?</h3>
+          <p className="mt-1">
+            If you plan to leave the U.S. and later re-enter in F-1 status, confirm your immigration status
+            and make sure your I-20 has a valid travel signature. A full withdrawal can affect your F-1
+            status, so check with OIPS before making travel plans.
+          </p>
+          <div className="mt-3 flex flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+            <a
+              href="https://oips.gmu.edu/hubportal-info/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 rounded-lg border-2 border-teal px-4 py-2.5 text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+            >
+              Request / Check I-20 Travel Signature
+              <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            </a>
+            <a
+              href="https://oips.gmu.edu/travel-and-re-entry/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-teal underline decoration-teal/30 underline-offset-2 transition-colors duration-200 ease-out hover:text-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+            >
+              Read OIPS travel & re-entry guidance
+              <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
