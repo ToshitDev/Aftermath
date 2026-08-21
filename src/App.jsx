@@ -5,6 +5,7 @@ import ResultCards from './components/ResultCards.jsx'
 import NextStepsChecklist from './components/NextStepsChecklist.jsx'
 import AlternativesComparison from './components/AlternativesComparison.jsx'
 import SupportBanner from './components/SupportBanner.jsx'
+import AboutSection from './components/AboutSection.jsx'
 import { FALL_2026_POLICY } from './lib/withdrawalRules.js'
 
 const PREVIEW_ITEMS = [
@@ -130,6 +131,8 @@ function App() {
     <div className="min-h-screen bg-cream px-3 py-6 text-ink sm:px-6 sm:py-8 lg:px-8 print:py-8">
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-7 lg:gap-8">
         <Intro />
+
+        <AboutSection />
 
         <div className="grid w-full grid-cols-1 gap-6 xl:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] xl:items-start xl:gap-8">
           <section className="min-w-0 space-y-3 print:hidden xl:sticky xl:top-6">
