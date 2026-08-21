@@ -59,30 +59,30 @@ function NextStepsChecklist({ livesInHousing, receivesFederalAid, isInternationa
   return (
     <section
       aria-label="Your next steps"
-      className="w-full max-w-5xl rounded-3xl border border-stone-200 bg-white p-5 shadow-lg shadow-stone-300/30 sm:p-6 print:border-none print:p-0 print:shadow-none"
+      className="w-full max-w-5xl rounded-2xl border border-black/5 bg-surface p-6 shadow-soft sm:p-8 print:border-none print:p-0 print:shadow-none"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-stone-600">Your Next Steps</h2>
+        <h2 className="font-heading text-xl font-semibold text-ink">Your Next Steps</h2>
         <button
           type="button"
           onClick={() => window.print()}
-          className="inline-flex items-center justify-center rounded-xl border border-stone-300 bg-white px-4 py-2 text-sm font-bold text-stone-800 shadow-sm transition hover:border-teal-500 hover:bg-teal-50 focus:outline-none focus:ring-4 focus:ring-teal-100 print:hidden"
+          className="inline-flex items-center justify-center rounded-lg border-2 border-black/10 bg-surface px-4 py-2 text-sm font-semibold text-ink transition-colors duration-200 ease-out hover:border-teal hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface print:hidden"
         >
           Print / Save as PDF
         </button>
       </div>
 
-      <ul className="mt-4 space-y-2">
+      <ul className="mt-4 space-y-1">
         {items.map((item) => (
           <li key={item.id}>
-            <label className="flex cursor-pointer items-start gap-3 rounded-2xl p-2 text-base leading-7 text-stone-800 transition hover:bg-stone-50 print:cursor-default print:p-0 print:hover:bg-transparent">
+            <label className="flex cursor-pointer items-start gap-3 rounded-lg p-2 text-base leading-relaxed text-ink transition-colors duration-200 ease-out hover:bg-cream print:cursor-default print:p-0 print:hover:bg-transparent">
               <input
                 type="checkbox"
                 checked={Boolean(checked[item.id])}
                 onChange={() => toggle(item.id)}
-                className="mt-1.5 h-5 w-5 shrink-0 rounded border-stone-300 text-teal-700 focus:ring-4 focus:ring-teal-100"
+                className="mt-1.5 h-5 w-5 shrink-0 rounded border-black/20 text-teal focus:ring-2 focus:ring-teal/40 focus:ring-offset-2 focus:ring-offset-surface"
               />
-              <span className={checked[item.id] ? 'text-stone-400 line-through' : ''}>{item.label}</span>
+              <span className={checked[item.id] ? 'text-ink/40 line-through' : ''}>{item.label}</span>
             </label>
           </li>
         ))}

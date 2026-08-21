@@ -6,9 +6,9 @@ function getToday() {
 
 function YesNoToggle({ legend, name, value, onChange }) {
   return (
-    <fieldset className="space-y-3">
-      <legend className="text-base font-semibold text-stone-900">{legend}</legend>
-      <div className="grid grid-cols-2 gap-3 rounded-2xl bg-white/70 p-1.5 shadow-inner shadow-stone-200/80">
+    <fieldset className="space-y-2">
+      <legend className="text-base font-medium text-ink">{legend}</legend>
+      <div className="grid grid-cols-2 gap-1 rounded-full bg-cream p-1">
         {[true, false].map((option) => {
           const label = option ? 'Yes' : 'No'
           const id = `${name}-${label.toLowerCase()}`
@@ -17,10 +17,8 @@ function YesNoToggle({ legend, name, value, onChange }) {
             <label
               key={id}
               htmlFor={id}
-              className={`cursor-pointer rounded-xl px-4 py-3 text-center text-sm font-semibold transition ${
-                value === option
-                  ? 'bg-teal-700 text-white shadow-sm'
-                  : 'text-stone-700 hover:bg-stone-50'
+              className={`cursor-pointer rounded-full border-2 border-transparent px-4 py-2.5 text-center text-sm font-semibold transition-colors duration-200 ease-out has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-teal/50 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-cream ${
+                value === option ? 'bg-teal text-white shadow-sm' : 'text-ink/70 hover:bg-surface'
               }`}
             >
               <input
@@ -86,28 +84,26 @@ function WithdrawalForm({ onSubmit }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl space-y-7 rounded-[2rem] border border-stone-200 bg-amber-50/90 p-5 shadow-2xl shadow-stone-300/40 sm:p-8"
+      className="w-full max-w-2xl space-y-8 rounded-2xl border border-black/5 bg-surface p-6 shadow-soft sm:p-8"
     >
       <div className="space-y-2">
-        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-teal-800">
-          Withdrawal planning
-        </p>
-        <h1 className="text-3xl font-bold text-stone-950 sm:text-4xl">Aftermath</h1>
-        <p className="max-w-xl text-base leading-7 text-stone-700">
-          Answer a few questions and we will map the next steps clearly.
+        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-teal">Withdrawal planning</p>
+        <h1 className="font-heading text-3xl font-semibold text-ink sm:text-5xl">Aftermath</h1>
+        <p className="max-w-[65ch] text-base leading-relaxed text-ink/70">
+          Answer a few questions and we&apos;ll map out what happens next — clearly, and at your own pace.
         </p>
       </div>
 
       <button
         type="button"
         onClick={handleExampleClick}
-        className="inline-flex w-full items-center justify-center rounded-2xl border border-teal-300 bg-white/60 px-4 py-3 text-sm font-bold text-teal-900 shadow-sm transition hover:border-teal-500 hover:bg-teal-50 focus:outline-none focus:ring-4 focus:ring-teal-100 sm:w-auto"
+        className="inline-flex w-full items-center justify-center rounded-lg border-2 border-teal px-4 py-2.5 text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface sm:w-auto"
       >
         Try an example scenario
       </button>
 
-      <div className="space-y-3">
-        <label htmlFor="withdrawal-date" className="block text-base font-semibold text-stone-900">
+      <div className="space-y-2">
+        <label htmlFor="withdrawal-date" className="block text-base font-medium text-ink">
           Withdrawal date
         </label>
         <input
@@ -115,7 +111,7 @@ function WithdrawalForm({ onSubmit }) {
           type="date"
           value={withdrawalDate}
           onChange={(event) => setWithdrawalDate(event.target.value)}
-          className="w-full rounded-2xl border border-stone-300 bg-white px-4 py-3 text-base text-stone-900 shadow-sm outline-none transition focus:border-teal-700 focus:ring-4 focus:ring-teal-100"
+          className="w-full rounded-lg border border-black/10 bg-surface px-4 py-2.5 text-base text-ink shadow-sm outline-none transition-colors duration-200 ease-out focus:border-teal focus:ring-2 focus:ring-teal/40"
           required
         />
       </div>
@@ -128,14 +124,12 @@ function WithdrawalForm({ onSubmit }) {
       />
 
       {receivesFederalAid && (
-        <div className="space-y-3 rounded-3xl bg-white/70 p-4 shadow-sm shadow-stone-200/80">
-          <label htmlFor="federal-aid-amount" className="block text-base font-semibold text-stone-900">
+        <div className="animate-fade-slide-in space-y-2 rounded-2xl bg-cream p-4">
+          <label htmlFor="federal-aid-amount" className="block text-base font-medium text-ink">
             Estimated federal aid received
           </label>
           <div className="relative">
-            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-stone-500">
-              $
-            </span>
+            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink/50">$</span>
             <input
               id="federal-aid-amount"
               type="number"
@@ -144,7 +138,7 @@ function WithdrawalForm({ onSubmit }) {
               inputMode="decimal"
               value={federalAidAmount}
               onChange={(event) => setFederalAidAmount(event.target.value)}
-              className="w-full rounded-2xl border border-stone-300 bg-white py-3 pl-9 pr-4 text-base text-stone-900 shadow-sm outline-none transition focus:border-teal-700 focus:ring-4 focus:ring-teal-100"
+              className="w-full rounded-lg border border-black/10 bg-surface py-2.5 pl-9 pr-4 text-base text-ink shadow-sm outline-none transition-colors duration-200 ease-out focus:border-teal focus:ring-2 focus:ring-teal/40"
               placeholder="0.00"
               required={receivesFederalAid}
             />
@@ -168,7 +162,7 @@ function WithdrawalForm({ onSubmit }) {
 
       <button
         type="submit"
-        className="w-full rounded-2xl bg-stone-950 px-5 py-4 text-base font-bold text-white shadow-lg shadow-stone-400/30 transition hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-200"
+        className="w-full rounded-lg bg-teal px-5 py-3 text-base font-semibold text-white shadow-soft transition-colors duration-200 ease-out hover:bg-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
       >
         Show me what happens
       </button>
