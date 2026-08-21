@@ -1,19 +1,33 @@
 import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, ExternalLink } from 'lucide-react'
 import {
   calculateAidRepayment,
   calculateTranscriptImpact,
   calculateTuitionRefund,
+  FALL_2026_POLICY,
+  FALL_2026_TERM_START,
+  POLICY_CHECKED_SHORT,
+  POLICY_SOURCES,
+  TUITION_REFUND_SCHEDULE_FALL_2026,
   getReviewRoute,
 } from '../lib/withdrawalRules.js'
 import ContactOffices from './ContactOffices.jsx'
 
-const FALL_2026_TERM_START = '2026-08-24'
-
-const currencyFormatter = new Intl.NumberFormat('en-US', {
+const preciseCurrencyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
-  maximumFractionDigits: 0,
+  maximumFractionDigits: 2,
+})
+
+const percentageFormatter = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 1,
+})
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
 })
 
 function addDays(dateString, days) {
@@ -21,6 +35,19 @@ function addDays(dateString, days) {
   const date = new Date(Date.UTC(year, month - 1, day + days))
 
   return date.toISOString().slice(0, 10)
+}
+
+function getDateTime(dateString) {
+  const [year, month, day] = dateString.split('-').map(Number)
+  return Date.UTC(year, month - 1, day)
+}
+
+function formatPolicyDate(dateString) {
+  return dateFormatter.format(new Date(getDateTime(dateString)))
+}
+
+function getDayDifference(fromDate, toDate) {
+  return Math.round((getDateTime(toDate) - getDateTime(fromDate)) / (24 * 60 * 60 * 1000))
 }
 
 function getDaysUntilRefundDrop(withdrawalDate, currentRefundPct) {
@@ -33,6 +60,49 @@ function getDaysUntilRefundDrop(withdrawalDate, currentRefundPct) {
 
     if (nextRefund.refundPct < currentRefundPct) {
       return daysAhead
+    }
+  }
+
+  return null
+}
+
+function getRefundDeadline(refundPct) {
+  return TUITION_REFUND_SCHEDULE_FALL_2026.find((row) => row.refundPct === refundPct)?.end ?? null
+}
+
+function getRefundTimeline(withdrawalDate) {
+  const fullRefundDeadline = getRefundDeadline(100)
+  const partialRefundDeadline = getRefundDeadline(50)
+  const milestones = [
+    { id: 'term-start', label: 'Term begins', date: FALL_2026_POLICY.termStart },
+    { id: 'full-refund', label: 'Full refund deadline', date: fullRefundDeadline },
+    { id: 'partial-refund', label: 'Partial refund deadline', date: partialRefundDeadline },
+    { id: 'withdrawal-date', label: 'Your withdrawal date', date: withdrawalDate, isStudentDate: true },
+  ].filter((milestone) => milestone.date)
+
+  return milestones.sort((first, second) => getDateTime(first.date) - getDateTime(second.date))
+}
+
+function getRefundTimelineContext(withdrawalDate, refundPct, daysUntilRefundDrop) {
+  if (refundPct === 100 && daysUntilRefundDrop) {
+    return `The next refund tier begins in ${daysUntilRefundDrop} ${daysUntilRefundDrop === 1 ? 'day' : 'days'}.`
+  }
+
+  const fullRefundDeadline = getRefundDeadline(100)
+  if (refundPct === 50 && fullRefundDeadline) {
+    const daysPast = getDayDifference(fullRefundDeadline, withdrawalDate)
+
+    if (daysPast > 0) {
+      return `You are ${daysPast} ${daysPast === 1 ? 'day' : 'days'} past the full-refund deadline.`
+    }
+  }
+
+  const partialRefundDeadline = getRefundDeadline(50)
+  if (refundPct === 0 && partialRefundDeadline) {
+    const daysPast = getDayDifference(partialRefundDeadline, withdrawalDate)
+
+    if (daysPast > 0) {
+      return `You are ${daysPast} ${daysPast === 1 ? 'day' : 'days'} past the partial-refund deadline.`
     }
   }
 
@@ -65,19 +135,20 @@ function getTuitionRefundPresentation(refundPct) {
   }
 }
 
-function getAidRiskPresentation(aidOwed) {
-  if (aidOwed > 0) {
+function getAidRiskPresentation(unearnedTitleIVAid) {
+  if (unearnedTitleIVAid > 0) {
     return {
       tone: 'caution',
-      badgeLabel: 'Heads up',
+      badgeLabel: 'Review required',
       meaning:
-        "Because you're withdrawing before completing 60% of the term, some of your federal aid may need to be returned.",
+        'This is not necessarily the amount you will personally owe. GMU Financial Aid calculates the school and student portions.',
     }
   }
   return {
-    tone: 'success',
-    badgeLabel: 'Good news',
-    meaning: "You've completed enough of the term for your aid to be considered fully earned — no repayment is expected.",
+    tone: 'neutral',
+    badgeLabel: 'Review required',
+    meaning:
+      'Based on this date, no unearned Title IV aid is estimated. GMU Financial Aid still makes the final determination.',
   }
 }
 
@@ -110,6 +181,59 @@ function ToneBadge({ tone, children }) {
   )
 }
 
+function SourceRow({ source }) {
+  return (
+    <div className="border-t border-black/5 pt-3 text-xs leading-relaxed text-ink/55">
+      <p className="font-semibold uppercase tracking-wide text-ink/45">Source</p>
+      <a
+        href={source.href}
+        target="_blank"
+        rel="noreferrer"
+        className="mt-1 inline-flex items-center gap-1 font-semibold text-teal underline decoration-teal/25 underline-offset-2 transition-colors duration-200 ease-out hover:text-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+      >
+        {source.label}
+        <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+      </a>
+      {source.checked && <p className="mt-1 text-ink/45">Policy checked: {POLICY_CHECKED_SHORT}</p>}
+    </div>
+  )
+}
+
+function DetailList({ items }) {
+  return (
+    <dl className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-[minmax(0,1fr)_auto]">
+      {items.map((item) => (
+        <div key={item.label} className="contents">
+          <dt className="text-ink/60">{item.label}</dt>
+          <dd className="font-semibold text-ink sm:text-right">{item.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+function RefundTimeline({ milestones }) {
+  return (
+    <ol className="space-y-2 border-l border-teal/20 pl-3 text-sm">
+      {milestones.map((milestone) => (
+        <li key={`${milestone.id}-${milestone.date}`} className="relative">
+          <span
+            className={`absolute -left-[17px] top-2 h-2 w-2 rounded-full ${
+              milestone.isStudentDate ? 'bg-teal ring-4 ring-teal/10' : 'bg-ink/25'
+            }`}
+            aria-hidden="true"
+          />
+          <div className={milestone.isStudentDate ? 'font-semibold text-teal-dark' : 'text-ink/70'}>
+            <span>{milestone.label}</span>
+            <span className="mx-1.5 text-ink/30">-</span>
+            <time dateTime={milestone.date}>{formatPolicyDate(milestone.date)}</time>
+          </div>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
 // Collapsible detail with a smooth, reversible expand (CSS grid-rows trick,
 // no measured heights) and a consistent rotating chevron. The Level-1
 // summary that triggers it always stays visible — this only ever holds
@@ -125,7 +249,7 @@ function Accordion({ children }) {
         aria-expanded={expanded}
         className="inline-flex items-center gap-1.5 rounded-lg text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:text-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
       >
-        {expanded ? 'Hide details' : 'See details'}
+        See details
         <ChevronDown
           className={`h-4 w-4 transition-transform duration-200 ease-out ${expanded ? 'rotate-180' : ''}`}
           aria-hidden="true"
@@ -135,7 +259,7 @@ function Accordion({ children }) {
         className={`grid transition-[grid-template-rows] duration-200 ease-out ${expanded ? 'mt-2 grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
       >
         <div className="overflow-hidden">
-          <p className="text-sm leading-relaxed text-ink/70">{children}</p>
+          <div className="space-y-4 rounded-lg bg-cream/60 p-4 text-sm leading-relaxed text-ink/70">{children}</div>
         </div>
       </div>
     </div>
@@ -173,13 +297,20 @@ function ResultCards({
   const transcriptImpact = calculateTranscriptImpact(withdrawalDate, FALL_2026_TERM_START)
   const reviewRoute = getReviewRoute(isInternational, livesInHousing)
   const daysUntilRefundDrop = getDaysUntilRefundDrop(withdrawalDate, tuitionRefund.refundPct)
+  const refundTimeline = getRefundTimeline(withdrawalDate)
+  const refundTimelineContext = getRefundTimelineContext(
+    withdrawalDate,
+    tuitionRefund.refundPct,
+    daysUntilRefundDrop,
+  )
   const primaryReviewOffices = reviewRoute.filter((office) => !office.startsWith('Housing & Residence Life'))
   const housingNote = reviewRoute.find((office) => office.startsWith('Housing & Residence Life'))
-  const aidOwed = Math.round(aidRepayment.owed)
-  const pctCompleted = Math.round(aidRepayment.pctCompleted * 100)
+  const estimatedUnearnedTitleIVAid = aidRepayment.unearnedTitleIVAid
+  const pctCompleted = percentageFormatter.format(aidRepayment.pctCompleted * 100)
+  const federalAidReceived = Math.max(Number(federalAidAmount) || 0, 0)
 
   const refundPresentation = getTuitionRefundPresentation(tuitionRefund.refundPct)
-  const aidPresentation = getAidRiskPresentation(aidOwed)
+  const aidPresentation = getAidRiskPresentation(estimatedUnearnedTitleIVAid)
 
   return (
     <section
@@ -197,21 +328,59 @@ function ResultCards({
           </p>
         )}
         <Accordion>
-          GMU refunds 100% of tuition through Sept 8, 50% from Sept 9–14, and 0% from Sept 15 onward for Fall
-          2026. This is based on the withdrawal date you entered.
+          <p>
+            GMU refunds 100% of tuition through Sept 8, 50% from Sept 9-15, and 0% from Sept 16 onward for
+            Fall 2026 full-semester courses.
+          </p>
+          {refundTimelineContext && <p className="font-semibold text-ink/75">{refundTimelineContext}</p>}
+          <RefundTimeline milestones={refundTimeline} />
+          <SourceRow source={POLICY_SOURCES.tuitionRefund} />
         </Accordion>
       </ResultCard>
 
       {receivesFederalAid && (
         <ResultCard title="Financial Aid Risk" delay={40}>
           <ToneBadge tone={aidPresentation.tone}>{aidPresentation.badgeLabel}</ToneBadge>
-          <p className="font-heading text-5xl font-semibold text-ink">{currencyFormatter.format(aidOwed)}</p>
+          <p className="text-sm font-semibold text-ink/60">Estimated unearned Title IV aid</p>
+          <p className="font-heading text-5xl font-semibold text-ink">
+            {preciseCurrencyFormatter.format(estimatedUnearnedTitleIVAid)}
+          </p>
           <p className="text-base leading-relaxed text-ink/70">{aidPresentation.meaning}</p>
           <Accordion>
-            You&apos;ve completed about {pctCompleted}% of the 79-day term. Federal rules consider aid fully
-            earned once you pass the 60% mark — before that, the unearned share may need to be returned.
-            {livesInHousing &&
-              ' Since you live in campus housing, Housing & Residence Life may also review any aid tied to your housing charges.'}
+            <div className="space-y-2">
+              <p className="font-semibold text-ink">How this estimate was calculated</p>
+              <DetailList
+                items={[
+                  {
+                    label: 'Federal aid received',
+                    value: preciseCurrencyFormatter.format(federalAidReceived),
+                  },
+                  {
+                    label: 'Approx. percentage of payment period completed',
+                    value: `${pctCompleted}%`,
+                  },
+                  {
+                    label: 'Estimated unearned Title IV aid',
+                    value: preciseCurrencyFormatter.format(estimatedUnearnedTitleIVAid),
+                  },
+                ]}
+              />
+            </div>
+            <p>
+              This estimate uses {aidRepayment.daysElapsed} countable calendar days completed out of{' '}
+              {aidRepayment.totalCountableDays}, excluding the scheduled Thanksgiving recess. It does not
+              determine the final student balance because R2T4 separately calculates the school return
+              responsibility, student responsibility, and grant protections.
+            </p>
+            <p>GMU Financial Aid makes the final Return of Title IV determination.</p>
+            {livesInHousing && (
+              <p>
+                Campus housing is not included in this Title IV aid estimate. Housing &amp; Residence
+                Life may review housing charges separately.
+              </p>
+            )}
+            <SourceRow source={POLICY_SOURCES.financialAid} />
+            <SourceRow source={POLICY_SOURCES.federalR2T4} />
           </Accordion>
         </ResultCard>
       )}
@@ -224,9 +393,11 @@ function ResultCards({
             Aid.
           </p>
           <Accordion>
-            Heads up: W grades count as attempted hours toward Satisfactory Academic Progress (SAP). If this
-            affects your GPA or completion rate, you may need to file a SAP appeal to keep future aid
-            eligibility. Confirm with Financial Aid.
+            <p>
+              Heads up: W grades count as attempted hours toward Satisfactory Academic Progress (SAP). If this
+              affects your GPA or completion rate, you may need to file a SAP appeal to keep future aid
+              eligibility. Confirm with Financial Aid.
+            </p>
           </Accordion>
         </ResultCard>
       )}
@@ -235,8 +406,11 @@ function ResultCards({
         <p className="font-heading text-xl font-semibold leading-snug text-ink">{transcriptImpact}</p>
         <p className="text-base leading-relaxed text-ink/70">{getTranscriptMeaning(transcriptImpact)}</p>
         <Accordion>
-          A &ldquo;W&rdquo; means withdrawal — it shows you were enrolled but didn&apos;t complete the course,
-          without factoring into your GPA calculation.
+          <p>
+            A &ldquo;W&rdquo; means withdrawal — it shows you were enrolled but didn&apos;t complete the course,
+            without factoring into your GPA calculation.
+          </p>
+          <SourceRow source={POLICY_SOURCES.transcriptImpact} />
         </Accordion>
       </ResultCard>
 
@@ -246,10 +420,12 @@ function ResultCards({
           If you&apos;re on the Aetna Student Health Plan, your withdrawal timing affects your coverage.
         </p>
         <Accordion>
-          If you&apos;re on GMU&apos;s Aetna Student Health Plan: withdrawing within the first 31 days of the
-          semester makes you ineligible for coverage. Withdrawing after 31 days under an approved leave keeps
-          your coverage through the period already paid for, with no refund. If you&apos;re an international
-          student, insurance is mandatory under GMU policy — confirm your status with OIPS.
+          <p>
+            If you&apos;re on GMU&apos;s Aetna Student Health Plan: withdrawing within the first 31 days of the
+            semester makes you ineligible for coverage. Withdrawing after 31 days under an approved leave keeps
+            your coverage through the period already paid for, with no refund. If you&apos;re an international
+            student, insurance is mandatory under GMU policy — confirm your status with OIPS.
+          </p>
         </Accordion>
       </ResultCard>
 
@@ -259,9 +435,11 @@ function ResultCards({
           Withdrawing doesn&apos;t close the door — coming back later is usually straightforward.
         </p>
         <Accordion>
-          The door isn&apos;t closed. If you&apos;re away 2 years or fewer (without a Leave of Absence on
-          file), you can return through the Registrar&apos;s Undergraduate Application for Re-enrollment. Away
-          longer than that, or studied elsewhere without permission? You&apos;ll reapply through Admissions.
+          <p>
+            The door isn&apos;t closed. If you&apos;re away 2 years or fewer (without a Leave of Absence on
+            file), you can return through the Registrar&apos;s Undergraduate Application for Re-enrollment. Away
+            longer than that, or studied elsewhere without permission? You&apos;ll reapply through Admissions.
+          </p>
         </Accordion>
       </ResultCard>
 
