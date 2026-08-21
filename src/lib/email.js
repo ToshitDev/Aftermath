@@ -12,14 +12,33 @@ export function formatWithdrawalDate(dateString) {
   return new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(date)
 }
 
+function capitalizeFirst(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+// "my name is X" / "My G-Number is Y" — lowercase "my" only on the clause
+// right after "Hello,"; any clause after that starts a new sentence.
+function buildIdentityClause(studentName, gNumber) {
+  const clauses = []
+  if (studentName) clauses.push(`my name is ${studentName}`)
+  if (gNumber) clauses.push(`my G-Number is ${gNumber}`)
+
+  return clauses.map((clause, index) => (index === 0 ? clause : capitalizeFirst(clause))).join('. ') + '.'
+}
+
 /**
  * Builds the polite, pre-filled inquiry body shared by every office's
- * "Send Email" action.
+ * "Send Email" action. `studentName`/`gNumber` are optional — omitting both
+ * falls back to the original, unpersonalized greeting.
  */
-export function buildWithdrawalInquiryBody(reasonLabel, withdrawalDate) {
+export function buildWithdrawalInquiryBody(reasonLabel, withdrawalDate, { studentName, gNumber } = {}) {
+  const greeting =
+    studentName || gNumber
+      ? `Hello, ${buildIdentityClause(studentName, gNumber)} I am withdrawing from the Fall 2026 semester`
+      : 'Hello, I am a George Mason University student withdrawing from the Fall 2026 semester'
+
   return (
-    `Hello, I am a George Mason University student withdrawing from the Fall 2026 semester ` +
-    `and need assistance with the following: ${reasonLabel}. My withdrawal date is ` +
+    `${greeting} and need assistance with the following: ${reasonLabel}. My withdrawal date is ` +
     `${formatWithdrawalDate(withdrawalDate)}. Please let me know the next steps. Thank you.`
   )
 }

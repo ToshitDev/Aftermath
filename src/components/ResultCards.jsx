@@ -160,6 +160,8 @@ function ResultCards({
   federalAidAmount,
   livesInHousing,
   isInternational,
+  studentName,
+  gNumber,
 }) {
   const tuitionRefund = calculateTuitionRefund(withdrawalDate)
   const aidRepayment = calculateAidRepayment(
@@ -286,6 +288,8 @@ function ResultCards({
           withdrawalDate={withdrawalDate}
           livesInHousing={livesInHousing}
           isInternational={isInternational}
+          studentName={studentName}
+          gNumber={gNumber}
         />
       </ResultCard>
     </section>

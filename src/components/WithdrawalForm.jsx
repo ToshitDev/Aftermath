@@ -44,6 +44,8 @@ const EXAMPLE_VALUES = {
   federalAidAmount: 8000,
   livesInHousing: true,
   isInternational: false,
+  studentName: 'Maya Rodriguez',
+  gNumber: 'G01234567',
 }
 
 function WithdrawalForm({ onSubmit }) {
@@ -52,6 +54,8 @@ function WithdrawalForm({ onSubmit }) {
   const [federalAidAmount, setFederalAidAmount] = useState('')
   const [livesInHousing, setLivesInHousing] = useState(false)
   const [isInternational, setIsInternational] = useState(false)
+  const [studentName, setStudentName] = useState('')
+  const [gNumber, setGNumber] = useState('')
 
   function handleAidChange(value) {
     setReceivesFederalAid(value)
@@ -69,6 +73,8 @@ function WithdrawalForm({ onSubmit }) {
       federalAidAmount: receivesFederalAid ? Number(federalAidAmount || 0) : 0,
       livesInHousing,
       isInternational,
+      studentName: studentName.trim(),
+      gNumber: gNumber.trim(),
     })
   }
 
@@ -78,6 +84,8 @@ function WithdrawalForm({ onSubmit }) {
     setFederalAidAmount(String(EXAMPLE_VALUES.federalAidAmount))
     setLivesInHousing(EXAMPLE_VALUES.livesInHousing)
     setIsInternational(EXAMPLE_VALUES.isInternational)
+    setStudentName(EXAMPLE_VALUES.studentName)
+    setGNumber(EXAMPLE_VALUES.gNumber)
     onSubmit(EXAMPLE_VALUES, { isExample: true })
   }
 
@@ -114,6 +122,40 @@ function WithdrawalForm({ onSubmit }) {
           className="w-full rounded-lg border border-black/10 bg-surface px-4 py-2.5 text-base text-ink shadow-sm outline-none transition-colors duration-200 ease-out focus:border-teal focus:ring-2 focus:ring-teal/40"
           required
         />
+      </div>
+
+      <div className="space-y-3 rounded-2xl bg-cream p-4">
+        <p className="text-sm text-ink/60">
+          So we can personalize your emails to GMU offices (optional).
+        </p>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <label htmlFor="student-name" className="block text-sm font-medium text-ink">
+              Name
+            </label>
+            <input
+              id="student-name"
+              type="text"
+              value={studentName}
+              onChange={(event) => setStudentName(event.target.value)}
+              placeholder="Your name"
+              className="w-full rounded-lg border border-black/10 bg-surface px-4 py-2.5 text-base text-ink shadow-sm outline-none transition-colors duration-200 ease-out focus:border-teal focus:ring-2 focus:ring-teal/40"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="student-g-number" className="block text-sm font-medium text-ink">
+              G-Number
+            </label>
+            <input
+              id="student-g-number"
+              type="text"
+              value={gNumber}
+              onChange={(event) => setGNumber(event.target.value)}
+              placeholder="G01234567"
+              className="w-full rounded-lg border border-black/10 bg-surface px-4 py-2.5 text-base text-ink shadow-sm outline-none transition-colors duration-200 ease-out focus:border-teal focus:ring-2 focus:ring-teal/40"
+            />
+          </div>
+        </div>
       </div>
 
       <YesNoToggle
