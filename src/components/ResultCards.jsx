@@ -329,6 +329,14 @@ function ResultCards({
             {daysUntilRefundDrop === 1 ? 'day' : 'days'}.
           </p>
         )}
+        {tuitionRefund.refundPct < 100 && (
+          <p className="rounded-lg bg-cream px-4 py-3 text-sm leading-relaxed text-ink/70">
+            Heads up: GMU does not offer tuition refund appeals for missed deadlines — this was replaced by
+            optional GradGuard Tuition Insurance, purchased at the time of billing. If you opted into
+            GradGuard when you paid tuition, contact them directly to file a claim. If you didn&apos;t, this
+            refund amount is final.
+          </p>
+        )}
         <Accordion>
           <p>
             GMU refunds 100% of tuition through Sept 8, 50% from Sept 9-15, and 0% from Sept 16 onward for
