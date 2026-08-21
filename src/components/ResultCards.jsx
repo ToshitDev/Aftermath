@@ -330,12 +330,31 @@ function ResultCards({
           </p>
         )}
         {tuitionRefund.refundPct < 100 && (
-          <p className="rounded-lg bg-cream px-4 py-3 text-sm leading-relaxed text-ink/70">
-            Heads up: GMU does not offer tuition refund appeals for missed deadlines — this was replaced by
-            optional GradGuard Tuition Insurance, purchased at the time of billing. If you opted into
-            GradGuard when you paid tuition, contact them directly to file a claim. If you didn&apos;t, this
-            refund amount is final.
-          </p>
+          <div className="space-y-3 rounded-lg bg-cream px-4 py-3">
+            <p className="text-sm leading-relaxed text-ink/70">
+              Heads up: GMU does not offer tuition refund appeals for missed deadlines — this was replaced by
+              optional GradGuard Tuition Insurance, purchased at the time of billing. If you opted into
+              GradGuard when you paid tuition, contact them directly to file a claim. If you didn&apos;t, this
+              refund amount is final.
+            </p>
+            <div className="flex flex-col items-start gap-2">
+              <a
+                href="tel:8884275045"
+                className="text-sm font-semibold text-teal underline decoration-teal/30 underline-offset-2 transition-colors duration-200 ease-out hover:text-teal-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              >
+                Call GradGuard to start a claim: 888-427-5045
+              </a>
+              <a
+                href="https://gradguard.com/support"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg border-2 border-teal px-4 py-2.5 text-sm font-semibold text-teal transition-colors duration-200 ease-out hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+              >
+                Visit GradGuard Support
+                <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
         )}
         <Accordion>
           <p>
